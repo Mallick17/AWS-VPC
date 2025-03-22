@@ -290,5 +290,4 @@ This detailed understanding of VPC components and architecture is essential for 
 
 ---
 
-This documentation should serve as a clear and detailed guide to explaining how Amazon VPC works, whether for internal training sessions, technical presentations, or architectural reviews.
 
