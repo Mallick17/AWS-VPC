@@ -8,6 +8,8 @@ A **VPC Peering Connection** is a **networking connection between two VPCs** tha
   - VPCs in **different AWS accounts**
   - VPCs in **different AWS Regions** (called **inter-Region VPC peering**)
 
+![image](https://github.com/user-attachments/assets/a5c02881-1506-41af-8045-d8efb74f1f5e)
+
 ---
 
 ### **How VPC Peering Works**
