@@ -60,3 +60,5 @@ This is useful for:
 
 ---
 
+## Pricing for a VPC peering connection
+- There is no charge to create a VPC peering connection. All data transfer over a VPC peering connection that stays within an Availability Zone is free, even if it's between different accounts. Charges apply for data transfer over VPC peering connections that cross Availability Zones and Regions.
