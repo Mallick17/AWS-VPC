@@ -433,6 +433,7 @@ For a subnet containing database servers, you may want to restrict both inbound 
 
 ---
 ---
+# Uses & Differences of NACLs & Security Groups
 
 ## 1. What Are NACLs and Security Groups?
 
