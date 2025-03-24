@@ -1,4 +1,6 @@
-# Security & Groups  Network Access Control Lists (NACLs)
+# Security Groups & Network Access Control Lists (NACLs)
+
+# Security Groups
 ## 1. What Are Security Groups?
 
 - **Definition:**  
@@ -296,6 +298,10 @@ Imagine you have an EC2 instance running Nginx, which serves a website over HTTP
 - **Tips:** Follow the principle of least privilege, document your rules, test configurations, and regularly audit your settings.
 
 ---
+
+# Network Access Controlled Lists (NACLs)
+
+
 
 
 
