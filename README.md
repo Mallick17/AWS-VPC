@@ -341,5 +341,6 @@ Now you know **everything** about **Internet Gateway and NAT Gateway in AWS VPC*
   
 </details>
 
+---
 
 ## Route Tables
