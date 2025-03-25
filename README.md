@@ -1,4 +1,4 @@
-# [Internet gateway](), [NAT gateway]() & [Route tables]()
+# [Internet gateway](https://github.com/Mallick17/AWS-VPC/blob/Route_Tables,IGW-&-NAT_Gateway/README.md#1-what-is-an-internet-gateway-igw), [NAT gateway](https://github.com/Mallick17/AWS-VPC/blob/Route_Tables,IGW-&-NAT_Gateway/README.md#2-what-is-a-nat-gateway-ngw) & [Route tables]()
 ## Overview: AWS VPC Networking
 
 Imagine your AWS VPC (Virtual Private Cloud) as a secure, fenced playground. Within this playground, you can have different areas (subnets) where your servers (like EC2 instances) live. Now, if you want to talk to the outside world (the Internet), you need special gateways or “doors.” There are two main types:
@@ -179,3 +179,7 @@ Think of the NAT Gateway as a mailroom in an office building that collects outgo
   - **Purpose:** Provide secure outbound Internet access for instances in private subnets without exposing them.  
   - **Traffic:** Outbound only.  
   - **Example:** Allowing servers to download software updates while keeping them hidden from the Internet.
+
+---
+
+## Route Tables
