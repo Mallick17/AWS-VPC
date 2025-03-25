@@ -290,4 +290,122 @@ This detailed understanding of VPC components and architecture is essential for 
 
 ---
 
+---
+
+# **1. Public IP, Private IP, IPv4 & IPv6**
+
+### **Public IP Address**  
+A **Public IP address** is an IP that is accessible from the internet. AWS assigns it dynamically when an instance is launched unless specified otherwise.  
+- **Use Case**: Used for communication over the internet.  
+- **Types in AWS**:  
+  - **Elastic IP (EIP)**: A static public IP that can be assigned to an instance to maintain the same IP even if the instance stops and starts.  
+  - **Public IPv4**: Assigned dynamically if enabled during launch but is lost when the instance stops and starts.  
+  - **IPv6 Address**: Publicly routable, meaning it can be reached from the internet directly.  
+
+### **Private IP Address**  
+A **Private IP address** is used within a Virtual Private Cloud (VPC) and is not accessible from the internet. It is assigned to an instance inside a VPC for internal communication.  
+- **Use Case**: Used for internal communication within AWS resources, such as between EC2 instances and databases.  
+- **Characteristics**:  
+  - Retains the same private IP address throughout the instance’s lifecycle.  
+  - Cannot be accessed over the internet directly.  
+  - Used for communication within the VPC.  
+
+### **IPv4 vs. IPv6**  
+- **IPv4**:  
+  - 32-bit address space (e.g., `192.168.1.1`).  
+  - Supports approximately 4.3 billion addresses.  
+  - AWS supports private and public IPv4 addresses.  
+
+- **IPv6**:  
+  - 128-bit address space (e.g., `2001:db8::ff00:42:8329`).  
+  - Supports an almost unlimited number of addresses.  
+  - AWS provides IPv6 addresses for internet communication, but they require an internet gateway or egress-only gateway.  
+
+---
+
+# **2. VPC, CIDR, and Subnets**
+
+### **What is a VPC (Virtual Private Cloud)?**  
+A **VPC (Virtual Private Cloud)** is an isolated network in AWS that allows you to launch AWS resources securely.  
+- **Key Features**:  
+  - Isolated networking environment.  
+  - Customizable CIDR block.  
+  - Allows control over routing and security.  
+  - Supports private and public subnets.  
+
+### **CIDR (Classless Inter-Domain Routing)**  
+CIDR notation defines an IP address range. It helps allocate IP addresses efficiently.  
+- Example: `10.0.0.0/16`  
+  - `10.0.0.0` → Network ID  
+  - `/16` → Subnet mask (65,536 IPs available)  
+
+### **Subnets**  
+A subnet is a division of a VPC.  
+- **Public Subnet**: Contains resources that need to be accessible from the internet (e.g., web servers).  
+- **Private Subnet**: Contains resources that should not be accessible from the internet (e.g., databases, backend servers).  
+
+**Subnet Example**:  
+- **VPC CIDR**: `10.0.0.0/16`  
+  - **Public Subnet**: `10.0.1.0/24` (Allows internet access)  
+  - **Private Subnet**: `10.0.2.0/24` (No internet access)  
+
+---
+
+# **3. NACL (Network ACL) & Security Groups**
+
+### **Security Group (SG)**  
+A **Security Group** is a firewall that controls inbound and outbound traffic at the instance level.  
+- **Characteristics**:  
+  - **Stateful** (If an inbound rule allows traffic, the outbound response is automatically allowed).  
+  - Applied to EC2 instances.  
+  - Default security group allows all outbound traffic but denies all inbound traffic.  
+  - Rules are **allow-only** (no deny rules).  
+
+### **NACL (Network Access Control List)**  
+A **Network ACL** is a firewall that controls traffic at the subnet level.  
+- **Characteristics**:  
+  - **Stateless** (Response traffic must be explicitly allowed).  
+  - Evaluates rules in numerical order.  
+  - Rules can allow or deny traffic.  
+  - Used for additional security at the subnet level.  
+
+### **Differences between Security Groups and NACLs**  
+| Feature | Security Group | NACL |
+|---------|--------------|------|
+| Scope | Instance Level | Subnet Level |
+| Stateful/Stateless | Stateful | Stateless |
+| Rules | Only Allow | Allow & Deny |
+| Evaluation Order | Evaluates all rules | Rules are processed in order |
+| Use Case | Instance protection | Subnet protection |
+
+---
+
+# **4. NAT Gateway, Internet Gateway, and Route Tables**
+
+### **Internet Gateway (IGW)**  
+An **Internet Gateway** allows instances in a public subnet to communicate with the internet.  
+- **Use Case**: Enables internet access for EC2 instances with a public IP.  
+- **Requirements**:  
+  - Must be attached to a VPC.  
+  - Public subnet must have a route to the IGW.  
+
+### **NAT Gateway**  
+A **NAT (Network Address Translation) Gateway** allows instances in a private subnet to access the internet without exposing them to incoming traffic.  
+- **Use Case**: Used when private instances need to download updates from the internet.  
+- **Characteristics**:  
+  - Managed AWS service.  
+  - One-way internet access (outbound only).  
+  - Requires a public subnet and Elastic IP.  
+
+### **Route Tables**  
+A **Route Table** defines how traffic is directed within a VPC.  
+- **Main Route Table**: The default route table for a VPC.  
+- **Custom Route Table**: Additional route tables can be created for specific subnets.  
+- **Route Example**:  
+  - **Public Subnet Route Table**:  
+    - `0.0.0.0/0` → Internet Gateway (IGW)  
+  - **Private Subnet Route Table (With NAT Gateway)**:  
+    - `0.0.0.0/0` → NAT Gateway  
+
+---
 
