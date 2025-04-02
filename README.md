@@ -1,7 +1,4 @@
-Let’s dive into the world of CIDR (Classless Inter-Domain Routing) and break down subnet masks in detail. This is a fascinating topic that ties directly into IP addressing, so buckle up for a clear and thorough explanation!
-
----
-
+# Classless Inter-Domain Routing
 ### **What is CIDR?**
 CIDR is a method for allocating IP addresses and routing data on the internet. It replaced the older class-based system (Class A, B, C) to make IP address allocation more efficient and flexible. CIDR uses a **subnet mask** to define how an IP address is split between the **network portion** and the **host portion**.
 
