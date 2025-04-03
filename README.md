@@ -112,7 +112,20 @@ IPv6 subnetting is less common at the consumer level due to the vast address spa
 
 ---
 
+## AWS reserves **five IP addresses** in each subnet for internal networking purposes. These are:  
+
+1. **First IP address** (e.g., `10.0.0.0` in your subnet) – **Network Address**: Used to identify the subnet itself.  
+2. **Second IP address** (e.g., `10.0.0.1`) – **VPC Router**: AWS assigns this for routing traffic between subnets and the internet (if applicable).  
+3. **Third IP address** (e.g., `10.0.0.2`) – **DNS Resolver**: Used for AWS-provided DNS services within the VPC.  
+4. **Fourth IP address** (e.g., `10.0.0.3`) – **Reserved for future use** (historically, for other AWS networking features).  
+5. **Last IP address** (e.g., `10.0.0.255`) – **Broadcast Address**: Traditionally used for network-wide broadcasts, but AWS reserves it since VPCs don’t support broadcasting.  
+
+Because of this, even if your subnet has a **/24 CIDR block** (which normally allows 256 addresses), only **251 are available** for EC2 instances or other resources.
+
+---
+
 ### **Quick Tips**
 - **Block Size**: Each step in CIDR (e.g., `/24` to `/25`) halves the number of IPs and doubles the number of subnets.
 - **Binary Trick**: To find the subnet increment, look at the rightmost `1` in the subnet mask (e.g., `255.255.255.192` → increment of 64).
 
+---
