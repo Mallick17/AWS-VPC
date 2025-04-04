@@ -1,5 +1,44 @@
 # [Security Groups](https://github.com/Mallick17/AWS-VPC/blob/NACLs-&-Security_Groups/README.md#security-groups) & [Network Access Control Lists (NACLs)](https://github.com/Mallick17/AWS-VPC/blob/NACLs-&-Security_Groups/README.md#network-access-controlled-lists-nacls) & [Uses & Differences](https://github.com/Mallick17/AWS-VPC/blob/NACLs-&-Security_Groups/README.md#uses--differences-of-nacls--security-groups)
 
+### **NACLs (Network Access Control Lists)**
+- **Stateless**: NACLs don’t remember anything about the connections passing through them. They evaluate each packet independently based on predefined rules, without considering whether it’s part of an ongoing conversation (connection). 
+- **How it works**: For every packet—whether it’s an incoming request or an outgoing response—you need explicit rules to allow it. If a packet doesn’t match a rule, it’s denied by default. For example:
+  - If you allow inbound traffic on port 80 (e.g., an HTTP request), you also need a separate rule to allow the outbound response (e.g., from the server back to the client). No rule = no traffic.
+- **Why stateless?**: NACLs operate at the subnet level and are essentially a filter that checks packets against a numbered list of rules (e.g., allow/deny based on IP, port, protocol). They don’t maintain a "state table" to track connections.
+- **Implication**: You have to manually define both ingress (incoming) and egress (outgoing) rules. This gives you fine-grained control but requires more configuration.
+
+### **Security Groups**
+- **Stateful**: Security Groups track the state of connections. Once a connection is allowed, they automatically permit the return traffic without needing an explicit rule for it.
+- **How it works**: If you allow inbound traffic (e.g., a client request to port 80), the Security Group remembers that connection and allows the response to flow back out automatically—no extra outbound rule needed.
+- **Why stateful?**: Security Groups operate at the instance (e.g., virtual machine) level and maintain a "state table" to track active connections. They understand the context of a packet (e.g., "this is a response to an allowed request") rather than treating it as an isolated event.
+- **Implication**: Configuration is simpler because you only need to define rules for initiating traffic (typically inbound), and the return traffic is handled automatically.
+
+### **What Does "Tracking Connections" Mean?**
+- **Stateful (Security Groups)**: "Tracking connections" means the system keeps a record of the connection’s state (e.g., who initiated it, what ports are involved, and whether it’s still active). For example:
+  - A client sends a request to a server (inbound).
+  - The server responds (outbound).
+  - The Security Group knows these packets are part of the same conversation and allows the response without an explicit outbound rule.
+- **Stateless (NACLs)**: NACLs don’t track connections. They don’t care if a packet is part of an existing conversation—they just check it against the rules. If there’s no rule allowing the response packet, it gets dropped, even if the initial request was permitted.
+
+### **Key Differences Summarized**
+| Feature              | NACLs (Stateless)             | Security Groups (Stateful)   |
+|----------------------|-------------------------------|-----------------------------|
+| **State Awareness**  | No connection tracking        | Tracks connection state     |
+| **Rule Direction**   | Need inbound + outbound rules | Only need inbound rules     |
+| **Scope**            | Subnet-level                  | Instance-level              |
+| **Return Traffic**   | Requires explicit rule        | Automatically allowed       |
+| **Configuration**    | More granular, more effort    | Simpler, less effort        |
+
+### **Practical Example**
+- **Scenario**: A web server on port 80.
+  - **Security Group**: Add a rule to allow inbound TCP port 80. Done. The client’s request comes in, and the server’s response goes out automatically.
+  - **NACL**: Add an inbound rule for TCP port 80 (client to server) *and* an outbound rule for the response (e.g., ephemeral ports 1024–65535 back to the client). Miss the outbound rule, and the connection fails.
+
+### **Why Can Security Groups Track Connections but NACLs Can’t?**
+- Security Groups are designed as a higher-level abstraction tied to instances, with built-in logic to monitor connection states (e.g., TCP handshakes, session data). NACLs are a lower-level, subnet-wide filter without that intelligence—they’re just a list of allow/deny conditions applied to every packet in isolation.
+
+In short, Security Groups make life easier for dynamic, connection-based traffic (like web apps), while NACLs give you raw, stateless control for scenarios where you need to micromanage every packet (e.g., strict network segmentation).
+
 # Security Groups
 ## 1. What Are Security Groups?
 
